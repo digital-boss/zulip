@@ -16,21 +16,21 @@ ARG PGROONGA_VERSION=latest
 ARG POSTGRESQL_VERSION=17
 FROM groonga/pgroonga:${PGROONGA_VERSION}-alpine-${POSTGRESQL_VERSION}-slim
 
-# Vendor dictionaries from LibreOffice (pin LO_DICTS_COMMIT to a specific commit for reproducible builds)
-ARG LO_DICTS_COMMIT=master
+# Vendor dictionaries from LibreOffice (pin LO_DICTS_COMMIT to a specific ref/commit for reproducible builds)
+ARG LO_DICTS_COMMIT=refs/heads/master
 RUN set -eux; \
     apk add --no-cache curl ca-certificates; \
     mkdir -p /usr/share/hunspell /usr/local/share/postgresql/tsearch_data; \
     curl -fsSL -o /usr/share/hunspell/en_US.aff "https://raw.githubusercontent.com/LibreOffice/dictionaries/${LO_DICTS_COMMIT}/en/en_US.aff"; \
     curl -fsSL -o /usr/share/hunspell/en_US.dic "https://raw.githubusercontent.com/LibreOffice/dictionaries/${LO_DICTS_COMMIT}/en/en_US.dic"; \
-    curl -fsSL -o /usr/share/hunspell/de_DE.aff "https://raw.githubusercontent.com/LibreOffice/dictionaries/${LO_DICTS_COMMIT}/de/de_DE.aff"; \
-    curl -fsSL -o /usr/share/hunspell/de_DE.dic "https://raw.githubusercontent.com/LibreOffice/dictionaries/${LO_DICTS_COMMIT}/de/de_DE.dic"; \
+    curl -fsSL -o /usr/share/hunspell/de_DE_frami.aff "https://raw.githubusercontent.com/LibreOffice/dictionaries/${LO_DICTS_COMMIT}/de/de_DE_frami.aff"; \
+    curl -fsSL -o /usr/share/hunspell/de_DE_frami.dic "https://raw.githubusercontent.com/LibreOffice/dictionaries/${LO_DICTS_COMMIT}/de/de_DE_frami.dic"; \
     curl -fsSL -o /usr/share/hunspell/bg_BG.aff "https://raw.githubusercontent.com/LibreOffice/dictionaries/${LO_DICTS_COMMIT}/bg_BG/bg_BG.aff"; \
     curl -fsSL -o /usr/share/hunspell/bg_BG.dic "https://raw.githubusercontent.com/LibreOffice/dictionaries/${LO_DICTS_COMMIT}/bg_BG/bg_BG.dic"; \
     ln -sf /usr/share/hunspell/en_US.dic /usr/local/share/postgresql/tsearch_data/en_us.dict; \
     ln -sf /usr/share/hunspell/en_US.aff /usr/local/share/postgresql/tsearch_data/en_us.affix; \
-    ln -sf /usr/share/hunspell/de_DE.dic /usr/local/share/postgresql/tsearch_data/de_de.dict; \
-    ln -sf /usr/share/hunspell/de_DE.aff /usr/local/share/postgresql/tsearch_data/de_de.affix; \
+    ln -sf /usr/share/hunspell/de_DE_frami.dic /usr/local/share/postgresql/tsearch_data/de_de.dict; \
+    ln -sf /usr/share/hunspell/de_DE_frami.aff /usr/local/share/postgresql/tsearch_data/de_de.affix; \
     ln -sf /usr/share/hunspell/bg_BG.dic /usr/local/share/postgresql/tsearch_data/bg_bg.dict; \
     ln -sf /usr/share/hunspell/bg_BG.aff /usr/local/share/postgresql/tsearch_data/bg_bg.affix
 
